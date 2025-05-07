@@ -1,1 +1,75 @@
 ﻿
+@{
+    ViewBag.Title = "Create-Category-Page";
+}
+
+<div>
+    <h2>新 增 类 别</h2>
+
+    <form id="feTableForm" name="beTableForm" method="post" enctype="multipart/form-data">
+        <label>名 称</label>
+        <input id="nameInput" name="Name" />
+        <br />
+
+        <label>描 述</label>
+        <input id="descriptionInput" name="Description" />
+        <br />
+
+        <label>图 片</label>
+        <!-- 图片返回接口 -->
+        <input id="returnedHiddenImageUrl" type="hidden" />
+        <div class="img-thumbnail">
+            <img id="uploadedImage" src="#" width="300" />
+        </div>
+        <!-- 文件上传入口 -->
+        <input id="imageInput" name="ImageUrl" type="file" accept=".jpg, .png" alt="未加载图片" />
+        <br />
+
+        <label>精 选</label>
+        <input id="featuredInputTrue" name="IsFeatured" type="radio" value="true" />属于
+        <input id="featuredInputFalse" name="IsFeatured" type="radio" value="false" />不属于
+        <br />
+
+        <button id="feConfirmButton" type="submit">确定</button>
+    </form>
+</div>
+
+<script>
+    const confirmButton = document.getElementById("feConfirmButton"); // 通过id属性，获取<button>元素
+    const categoryTableForm = document.getElementById("feTableForm"); // 通过id属性，获取<form>元素
+
+    confirmButton.addEventListener("click", function (ex) {
+        ex.preventDefault(); // 阻止<button type="submit">的默认提交行为
+        const formPayload = new FormData(categoryTableForm); // 创建一个新的FormData对象，封装<form>数据
+
+        // 发送AJAX请求
+        fetch("/Category/CreateCategory", {
+            method: "POST", // 请求方法
+            body: formPayload, // 请求体
+        })
+            // 后端请求成功后返回响应，检查响应状态
+            .then((response) => {
+                if (response.ok) {
+                    return response.json(); // 将响应体解析为JSON格式，并传递给下一个then
+                } else {
+                    throw new Error("发送网络错误！"); // 响应状态不在200-299范围内，抛出错误
+                }
+            })
+            // 处理解析后的JSON数据，检查后端业务的结果
+            .then((data) => {
+                if (data.Success) {
+                    alert(data.Message); // 后端业务成功消息提示
+                    document.getElementById("returnedHiddenImageUrl").value = data.ImageUrl; // 设置隐藏图片的地址 = 后端返回的图片地址
+                    document.getElementById("uploadedImage").src = data.ImageUrl; // 设置<img>的src属性 = 后端返回的图片地址
+                    categoryTableForm.reset(); // 重置表单
+                    window.location.href = data.RedirectUrl; // 前端重定向到分类列表首页
+                } else {
+                    alert("数据异常！" + data.Message); // 后端业务失败消息提示
+                }
+            })
+            // 捕获请求或解析JSON时的错误
+            .catch((error) => {
+                console.error("请求失败：", error); // 捕获并打印错误
+            });
+    })
+</script>

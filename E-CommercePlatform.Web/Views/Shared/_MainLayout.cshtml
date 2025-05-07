@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html  lang="en">
+<!-- Head -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    @*<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">*@
+
+    <title>六 角 商 务 - @ViewBag.Title</title>
+
+    <!-- 引入绑定了多个自定义Bootstrap主题的CSS样式文件 -->
+    @Styles.Render("~/bundles/_MainLayout/Hexa/css")
+    <!-- 引入绑定了多个检测浏览器和主题兼容的CSS样式文件 -->
+    @Scripts.Render("~/bundles/official/modernizr")
+</head>
+
+<!-- Body -->
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header-area header-sticky">
+        @Html.Partial("Partials/_HeaderLayout")
+    </header>
+
+    <!-- Main -->
+    <main>
+        <div class="container body-content">
+            @RenderBody()
+        </div>
+
+        @Html.Partial("Partials/_Subscription")
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        @Html.Partial("Partials/_FooterLayout")
+    </footer>
+    <!-- 引入绑定了多个官方Jquery版本的JS脚本文件 -->
+    @Scripts.Render("~/bundles/official/jquery")
+    <!-- 引入官方Bootstrap主题支持的JS脚本文件 -->
+    @Scripts.Render("~/bundles/official/bootstrap")
+    <!-- 引入绑定了多个自定义Bootstrap主题的JS脚本文件 -->
+    @Scripts.Render("~/bundles/_MainLayout/Hexa/js")
+    <!-- 允许子视图脚本为空 -->
+    @RenderSection("scripts", required: false)
+</body>
+</html>

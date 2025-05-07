@@ -87,8 +87,8 @@ namespace E_CommercePlatform.Web
                       "~/Content/ShionHouse/assets/js/main.js"));
 
 
-            //***** JS 脚本文件类型的捆绑 *****//
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            //***** CSS 样式文件类型的捆绑 *****//
+            bundles.Add(new StyleBundle("~/Content/official/css").Include(
                       "~/Content/OfficialTheme/assets/css/bootstrap.css",
                       "~/Content/OfficialTheme/assets/css/site.css"));
 

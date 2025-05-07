@@ -63,13 +63,13 @@ namespace E_CommercePlatform.Web.Controllers
                     string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(fileName);
 
                     // 将控制器路由的相对路径转换为物理实体路径，并与文件名拼接成完整的文件路径。
-                    string serverFilePath = Path.Combine(Server.MapPath("~/Content/Images/"), fileName);
+                    string serverFilePath = Path.Combine(Server.MapPath("~/Content/Images/"), uniqueFileName);
 
                     // 将用户上传的文件保存到物理实体路径(服务器硬盘)
                     ImageUrl.SaveAs(serverFilePath);
 
                     // 将拼接后的文件名赋值给实体类的ImageUrl属性
-                    feTableForm.ImageUrl = "/Content/Images/" + fileName;
+                    feTableForm.ImageUrl = "/Content/Images/" + uniqueFileName;
                 }
 
                 // 调用服务层方法，新增类别信息到数据库
