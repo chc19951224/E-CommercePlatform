@@ -169,8 +169,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -251,6 +253,12 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\CreateCategory.cshtml" />
+    <Content Include="Views\Category\EditCategory.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\CreateProduct.cshtml" />
+    <Content Include="Views\Product\EditProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -281,6 +289,16 @@
     <Content Include="Content\OfficialTheme\assets\js\bootstrap.bundle.js.map" />
     <Content Include="Content\JqueryScripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Content\JqueryScripts\jquery-3.7.0.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\E-CommercePlatform.Entities\E-CommercePlatform.Entities.csproj">
+      <Project>{fefd49c1-6093-4f53-aa7c-824baae3fe73}</Project>
+      <Name>E-CommercePlatform.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\E-CommercePlatform.Services\E-CommercePlatform.Services.csproj">
+      <Project>{bf4a580b-30b2-4666-9c2f-c76ac3f8ab46}</Project>
+      <Name>E-CommercePlatform.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
