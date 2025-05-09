@@ -4,37 +4,37 @@
             <nav class="main-nav">
                 <!-- ***** Logo Start ***** -->
                 <a href="index.html" class="logo">
-                    <img src="~/Content/HexaShop/assets/images/logo.png" />
+                    <img src="~/Content/ClientTheme/assets/images/logo.png" />
                 </a>
 
                 <!-- ***** Menu Start ***** -->
                 <ul class="nav">
-                    <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                    <li>@Html.ActionLink("首 页", "ClientIndex", "Client")</a></li>
                     <li class="scroll-to-section"><a href="#men">Men's</a></li>
                     <li class="scroll-to-section"><a href="#women">Women's</a></li>
                     <li class="scroll-to-section"><a href="#kids">Kid's</a></li>
 
                     <li class="submenu">
-                        <a href="javascript:;">Pages</a>
+                        <a href="javascript:;">导 航 菜 单</a>
                         <ul>
-                            <li>@Html.ActionLink("CategoryList", "Index", "Category")</li>
-                            <li><a href="products.html">Products</a></li>
+                            <li>@Html.ActionLink("浏 览 类 别", "CategoryIndex", "Category")</li>
+                            <li>@Html.ActionLink("浏 览 商 品", "ProductIndex", "Product")</li>
                             <li><a href="single-product.html">Single Product</a></li>
                             <li><a href="contact.html">Contact Us</a></li>
                         </ul>
                     </li>
 
                     <li class="submenu">
-                        <a href="javascript:;">Features</a>
+                        <a href="javascript:;">控 制 后 台</a>
                         <ul>
-                            <li><a href="#">Features Page 1</a></li>
-                            <li><a href="#">Features Page 2</a></li>
-                            <li><a href="#">Features Page 3</a></li>
-                            <li><a rel="nofollow" href="https://templatemo.com/page/4" target="_blank">Template Page 4</a></li>
+                            <li><a href="#">管 理 类 别</a></li>
+                            <li><a href="#">管 理 商 品</a></li>
+                            <li><a href="#">管 理 订 单</a></li>
+                            <li><a href="#">特 惠 活 动</a></li>
                         </ul>
                     </li>
 
-                    <li class="scroll-to-section"><a href="#explore">Explore</a></li>
+                    <li>@Html.ActionLink("登 入", "DashboardIndex", "Dashboard")</a></li>
                 </ul>
 
                 <a class='menu-trigger'>

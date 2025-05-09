@@ -8,114 +8,90 @@ namespace E_CommercePlatform.Web
         public static void RegisterBundles(BundleCollection bundles)
         {
             //***** JS 脚本文件类型的捆绑 *****//
-            bundles.Add(new ScriptBundle("~/bundles/official/jquery").Include(
-                        "~/Content/JqueryScripts/jquery-{version}.js"));
+            bundles.Add(new ScriptBundle("~/bundles/Support/jquery").Include(
+                        "~/Content/JqueryScriptsSupport/jquery-{version}.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/official/jqueryval").Include(
-                        "~/Content/JqueryScripts/jquery.validate*"));
+            bundles.Add(new ScriptBundle("~/bundles/Support/jqueryval").Include(
+                        "~/Content/JqueryScriptsSupport/jquery.validate*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/official/modernizr").Include(
-                        "~/Content/JqueryScripts/modernizr-*"));
+            bundles.Add(new ScriptBundle("~/bundles/Support/modernizr").Include(
+                        "~/Content/JqueryScriptsSupport/modernizr-*"));
 
-            bundles.Add(new Bundle("~/bundles/official/bootstrap").Include(
-                      "~/Content/OfficialTheme/assets/js/bootstrap.js"));
+            bundles.Add(new Bundle("~/bundles/Support/bootstrap").Include(
+                      "~/Content/DefaultTheme/assets/js/bootstrap.js"));
 
-            // 【HexaShop】【_MainLayout】捆绑自定义Bootstrap的所需脚本
-            bundles.Add(new ScriptBundle("~/bundles/_MainLayout/Hexa/js").Include(
+            //【Client】捆绑自定义Bootstrap的所需脚本
+            bundles.Add(new ScriptBundle("~/bundles/ClientTheme/js").Include(
                         //jQuery
-                        "~/Content/HexaShop/assets/js/jquery-2.1.0.min.js",
+                        "~/Content/ClientTheme/assets/js/jquery-2.1.0.min.js",
 
                         //Bootstrap
-                        "~/Content/HexaShop/assets/js/popper.js",
-                        "~/Content/HexaShop/assets/js/bootstrap.min.js",
+                        "~/Content/ClientTheme/assets/js/popper.js",
+                        "~/Content/ClientTheme/assets/js/bootstrap.min.js",
 
                         //Plugins
-                        "~/Content/HexaShop/assets/js/owl-carousel.js",
-                        "~/Content/HexaShop/assets/js/accordions.js",
-                        "~/Content/HexaShop/assets/js/datepicker.js",
-                        "~/Content/HexaShop/assets/js/scrollreveal.min.js",
-                        "~/Content/HexaShop/assets/js/waypoints.min.js",
-                        "~/Content/HexaShop/assets/js/jquery.counterup.min.js",
-                        "~/Content/HexaShop/assets/js/imgfix.min.js",
-                        "~/Content/HexaShop/assets/js/slick.js",
-                        "~/Content/HexaShop/assets/js/lightbox.js",
-                        "~/Content/HexaShop/assets/js/isotope.js",
+                        "~/Content/ClientTheme/assets/js/owl-carousel.js",
+                        "~/Content/ClientTheme/assets/js/accordions.js",
+                        "~/Content/ClientTheme/assets/js/datepicker.js",
+                        "~/Content/ClientTheme/assets/js/scrollreveal.min.js",
+                        "~/Content/ClientTheme/assets/js/waypoints.min.js",
+                        "~/Content/ClientTheme/assets/js/jquery.counterup.min.js",
+                        "~/Content/ClientTheme/assets/js/imgfix.min.js",
+                        "~/Content/ClientTheme/assets/js/slick.js",
+                        "~/Content/ClientTheme/assets/js/lightbox.js",
+                        "~/Content/ClientTheme/assets/js/isotope.js",
 
                         //Global Init
-                        "~/Content/HexaShop/assets/js/custom.js"
+                        "~/Content/ClientTheme/assets/js/custom.js"
                         ));
 
-            // 【ShionHouse】【_xx】捆绑自定义Bootstrap的所需脚本
-            bundles.Add(new ScriptBundle("~/bundles/xx/Shion/js").Include(
-                      //Jquery, Popper, Bootstrap
-                      "~/Content/ShionHouse/assets/vendor/js/vendor/modernizr-3.5.0.min.js",
-                      "~/Content/ShionHouse/assets/vendor/jquery-1.12.4.min.js",
-                      "~/Content/ShionHouse/assets/js/popper.min.js",
-                      "~/Content/ShionHouse/assets/js/bootstrap.min.js",
+            //【Dashboard】捆绑自定义Bootstrap的所需脚本
+            bundles.Add(new ScriptBundle("~/bundles/DashboardTheme/js").Include(
+                      //Required vendors
+                      "~/Content/DashboardTheme/assets/js/global.min.js",
+                      "~/Content/DashboardTheme/assets/js/quixnav-init.js",
+                      "~/Content/DashboardTheme/assets/js/custom.min.js",
 
-                      //Slick-slider , Owl-Carousel ,slick-nav
-                      "~/Content/ShionHouse/assets/js/owl.carousel.min.js",
-                      "~/Content/ShionHouse/assets/js/slick.min.js",
-                      "~/Content/ShionHouse/assets/js/jquery.slicknav.min.js",
+                      //Vectormap
+                      "~/Content/DashboardTheme/assets/js/raphael.min.js",
+                      "~/Content/DashboardTheme/assets/js/morris.min.js",
+                      "~/Content/DashboardTheme/assets/js/circle-progress.min.js",
+                      "~/Content/DashboardTheme/assets/js/Chart.bundle.min.js",
+                      "~/Content/DashboardTheme/assets/js/gauge.min.js",
 
-                      //One Page, Animated-HeadLin, Date Picker
-                      "~/Content/ShionHouse/assets/js/wow.min.js",
-                      "~/Content/ShionHouse/assets/js/animated.headline.js",
-                      "~/Content/ShionHouse/assets/js/jquery.magnific-popup.js",
-                      "~/Content/ShionHouse/assets/js/gijgo.min.js",
+                      //flot-chart js
+                      "~/Content/DashboardTheme/assets/js/jquery.flot.js",
+                      "~/Content/DashboardTheme/assets/js/jquery.flot.resize.js",
 
-                      //Nice-select, sticky,Progress
-                      "~/Content/ShionHouse/assets/js/jquery.nice-select.min.js",
-                      "~/Content/ShionHouse/assets/js/jquery.sticky.js",
-                      "~/Content/ShionHouse/assets/js/jquery.barfiller.js",
+                      //Owl Carousel
+                      "~/Content/DashboardTheme/assets/js/owl.carousel.min.js",
 
-                      //counter , waypoint,Hover Direction
-                      "~/Content/ShionHouse/assets/js/jquery.counterup.min.js",
-                      "~/Content/ShionHouse/assets/js/waypoints.min.js",
-                      "~/Content/ShionHouse/assets/js/jquery.countdown.min.js",
-                      "~/Content/ShionHouse/assets/js/hover-direction-snake.min.js",
-
-                      //contact js
-                      "~/Content/ShionHouse/assets/js/contact.js",
-                      "~/Content/ShionHouse/assets/js/jquery.form.js",
-                      "~/Content/ShionHouse/assets/js/jquery.validate.min.js",
-                      "~/Content/ShionHouse/assets/js/mail-script.js",
-                      "~/Content/ShionHouse/assets/js/jquery.ajaxchimp.min.js",
-
-                      //【网页预加载特效Jquery】plugins，main
-                      "~/Content/ShionHouse/assets/js/plugins.js",
-                      "~/Content/ShionHouse/assets/js/main.js"));
+                      //Counter Up
+                      "~/Content/DashboardTheme/assets/js/jquery.vmap.min.js",
+                      "~/Content/DashboardTheme/assets/js/jquery.vmap.usa.js",
+                      "~/Content/DashboardTheme/assets/js/jquery.counterup.min.js",
+                      "~/Content/DashboardTheme/assets/js/dashboard-1.js"));
 
 
             //***** CSS 样式文件类型的捆绑 *****//
-            bundles.Add(new StyleBundle("~/Content/official/css").Include(
-                      "~/Content/OfficialTheme/assets/css/bootstrap.css",
-                      "~/Content/OfficialTheme/assets/css/site.css"));
+            bundles.Add(new StyleBundle("~/Content/DefaultTheme/css").Include(
+                      "~/Content/DefaultTheme/assets/css/bootstrap.css",
+                      "~/Content/DefaultTheme/assets/css/site.css"));
 
-            // 【HexaShop】【_MainLayout】捆绑自定义Bootstrap的所需样式
-            bundles.Add(new StyleBundle("~/bundles/_MainLayout/Hexa/css").Include(
-                        "~/Content/HexaShop/assets/css/bootstrap.min.css",
-                        "~/Content/HexaShop/assets/css/font-awesome.css",
-                        "~/Content/HexaShop/assets/css/templatemo-hexashop.css",
-                        "~/Content/HexaShop/assets/css/owl-carousel.css",
-                        "~/Content/HexaShop/assets/css/lightbox.css"));
+            //【Client】捆绑自定义Bootstrap的所需样式
+            bundles.Add(new StyleBundle("~/bundles/ClientTheme/css").Include(
+                        "~/Content/ClientTheme/assets/css/bootstrap.min.css",
+                        "~/Content/ClientTheme/assets/css/font-awesome.css",
+                        "~/Content/ClientTheme/assets/css/templatemo-hexashop.css",
+                        "~/Content/ClientTheme/assets/css/owl-carousel.css",
+                        "~/Content/ClientTheme/assets/css/lightbox.css"));
 
-            // 【ShionHouse】【_xx】捆绑自定义Bootstrap所需样式
-            bundles.Add(new StyleBundle("~/bundles/xx/Shion/css").Include(
-                      "~/Content/ShionHouse/assets/css/bootstrap.min.css",
-                      "~/Content/ShionHouse/assets/css/owl.carousel.min.css",
-                      "~/Content/ShionHouse/assets/css/slicknav.css",
-                      "~/Content/ShionHouse/assets/css/flaticon.css",
-                      "~/Content/ShionHouse/assets/css/progressbar_barfiller.css",
-                      "~/Content/ShionHouse/assets/css/gijgo.css",
-                      "~/Content/ShionHouse/assets/css/animate.min.css",
-                      "~/Content/ShionHouse/assets/css/animated-headline.css",
-                      "~/Content/ShionHouse/assets/css/magnific-popup.css",
-                      "~/Content/ShionHouse/assets/css/fontawesome-all.min.css",
-                      "~/Content/ShionHouse/assets/css/themify-icons.css",
-                      "~/Content/ShionHouse/assets/css/slick.css",
-                      "~/Content/ShionHouse/assets/css/nice-select.css",
-                      "~/Content/ShionHouse/assets/css/style.css"));
+            //【Dashboard】捆绑自定义Bootstrap所需样式
+            bundles.Add(new StyleBundle("~/bundles/DashboardTheme/css").Include(
+                      "~/Content/DashboardTheme/assets/css/owl.carousel.min.css",
+                      "~/Content/DashboardTheme/assets/css/owl.theme.default.min.css",
+                      "~/Content/DashboardTheme/assets/css/jqvmap.min.css",
+                      "~/Content/DashboardTheme/assets/css/style.css"));
         }
     }
 }

@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<!-- Head -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>管 理 后 台</title>
+
+    <!-- 引入绑定了多个自定义Bootstrap主题的CSS样式文件 -->
+    @Styles.Render("~/bundles/DashboardTheme/css")
+    <!-- 引入绑定了多个检测浏览器和主题兼容的CSS样式文件 -->
+    @Scripts.Render("~/bundles/Support/modernizr")
+</head>
+
+<!-- Body -->
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="sk-three-bounce">
+            <div class="sk-child sk-bounce1"></div>
+            <div class="sk-child sk-bounce2"></div>
+            <div class="sk-child sk-bounce3"></div>
+        </div>
+    </div>
+
+    <div id="main-wrapper">
+        <!-- Header -->
+        <div>
+            @Html.Partial("~/Views/Dashboard/Shared/_HeaderPartial.cshtml")
+        </div>
+
+        <!-- Sidebar -->
+        <div class="quixnav">
+            @Html.Partial("~/Views/Dashboard/Shared/_SidebarPartial.cshtml")
+        </div>
+
+        <!-- Main -->
+        <div class="content-body">
+            @RenderBody()
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            @Html.Partial("~/Views/Dashboard/Shared/_FooterPartial.cshtml")
+        </div>
+    </div>
+
+
+    <!-- 引入绑定了多个官方Jquery版本的JS脚本文件 -->
+    @Scripts.Render("~/bundles/Support/jquery")
+    <!-- 引入官方Bootstrap主题支持的JS脚本文件 -->
+    @Scripts.Render("~/bundles/Support/bootstrap")
+    <!-- 引入绑定了多个自定义Bootstrap主题的JS脚本文件 -->
+    @Scripts.Render("~/bundles/DashboardTheme/js")
+    <!-- 允许子视图脚本为空 -->
+    @RenderSection("scripts", required: false)
+</body>
+</html>

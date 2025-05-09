@@ -15,19 +15,12 @@ namespace E_CommercePlatform.Web.Controllers
         ProductService productService = new ProductService();
 
         //***** 显示视图 *****//
-        // 【首页视图】
+        // 【浏览商品】
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult ProductIndex()
         {
             var products = productService.FindAllProducts(); // 调用服务层方法，查询出所有商品数据
             return View(products);
-        }
-
-        // 【表格视图】
-        [HttpGet]
-        public ActionResult ProductTable()
-        {
-            return PartialView();
         }
 
         // 【新增视图】

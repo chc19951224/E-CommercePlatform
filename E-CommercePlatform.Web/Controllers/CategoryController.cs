@@ -16,19 +16,12 @@ namespace E_CommercePlatform.Web.Controllers
 
 
         //***** 显示视图 *****//
-        //【首页视图】
+        //【浏览类别】
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult CategoryIndex()
         {
             var categorise = categoryService.FindAllCategories(); // 调用服务层方法，查询出所有类别数据
             return View(categorise);
-        }
-
-        //【表格视图】
-        [HttpGet]
-        public ActionResult CategoryTable()
-        {
-            return PartialView();
         }
 
         //【新增视图】
@@ -40,7 +33,7 @@ namespace E_CommercePlatform.Web.Controllers
 
         //【修改视图】
         [HttpGet]
-        public ActionResult EditCategory()
+        public ActionResult UpdateCategory()
         {
             return PartialView();
         }
@@ -49,11 +42,11 @@ namespace E_CommercePlatform.Web.Controllers
         //***** 视图操作 *****//
         //【表格视图操作】通过传入对象 Category 参数，新增类别数据。
         [HttpPost]
-        public ActionResult CreateCategory(Category feTableForm, HttpPostedFileBase ImageUrl)
+        public ActionResult CreateCategory(Category formData, HttpPostedFileBase ImageUrl)
         {
             try
             {
-                // 判断用户是否上传图片，并且图片是否游戏(字节数大于0)。
+                // 判断用户是否上传图片，并且图片是否有效(字节数大于0)。
                 if (ImageUrl != null && ImageUrl.ContentLength > 0)
                 {
                     // 去除用户上传文件时的路径信息，只保留文件名，并赋值给变量。
@@ -65,20 +58,19 @@ namespace E_CommercePlatform.Web.Controllers
                     // 将控制器路由的相对路径转换为物理实体路径，并与文件名拼接成完整的文件路径。
                     string serverFilePath = Path.Combine(Server.MapPath("~/Content/Images/"), uniqueFileName);
 
-                    // 将用户上传的文件保存到物理实体路径(服务器硬盘)
+                    // 将本机图片完整路径，保存实体路径(服务器硬盘)
                     ImageUrl.SaveAs(serverFilePath);
 
-                    // 将拼接后的文件名赋值给实体类的ImageUrl属性
-                    feTableForm.ImageUrl = "/Content/Images/" + uniqueFileName;
+                    // 表单数据中的图片路径 = 数据库的图片路径
+                    formData.ImageUrl = "/Content/Images/" + uniqueFileName;
                 }
 
                 // 调用服务层方法，新增类别信息到数据库
-                categoryService.AddCategory(feTableForm);
+                categoryService.AddCategory(formData);
                 return Json(new
                 {
                     Success = true,
                     Message = "新增类别成功~！",
-                    Image = feTableForm.ImageUrl, // 返回给前端的图片地址
                     RedirectUrl = Url.Action("Index", "Category") // 重定向到类别首页视图
                 });
             }

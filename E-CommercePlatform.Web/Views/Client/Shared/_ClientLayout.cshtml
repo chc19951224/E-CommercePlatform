@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html  lang="en">
+<html lang="en">
 <!-- Head -->
 <head>
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
     <title>六 角 商 务 - @ViewBag.Title</title>
 
     <!-- 引入绑定了多个自定义Bootstrap主题的CSS样式文件 -->
-    @Styles.Render("~/bundles/_MainLayout/Hexa/css")
+    @Styles.Render("~/bundles/ClientTheme/css")
     <!-- 引入绑定了多个检测浏览器和主题兼容的CSS样式文件 -->
-    @Scripts.Render("~/bundles/official/modernizr")
+    @Scripts.Render("~/bundles/Support/modernizr")
 </head>
 
 <!-- Body -->
@@ -29,7 +29,7 @@
 
     <!-- Header -->
     <header class="header-area header-sticky">
-        @Html.Partial("Partials/_HeaderLayout")
+        @Html.Partial("~/Views/Client/Shared/_HeaderPartial.cshtml")
     </header>
 
     <!-- Main -->
@@ -38,19 +38,20 @@
             @RenderBody()
         </div>
 
-        @Html.Partial("Partials/_Subscription")
+        @Html.Partial("~/Views/Client/Shared/_SubscriptionPartial.cshtml")
     </main>
 
     <!-- Footer -->
     <footer>
-        @Html.Partial("Partials/_FooterLayout")
+        @Html.Partial("~/Views/Client/Shared/_FooterPartial.cshtml")
     </footer>
+
     <!-- 引入绑定了多个官方Jquery版本的JS脚本文件 -->
-    @Scripts.Render("~/bundles/official/jquery")
+    @Scripts.Render("~/bundles/Support/jquery")
     <!-- 引入官方Bootstrap主题支持的JS脚本文件 -->
-    @Scripts.Render("~/bundles/official/bootstrap")
+    @Scripts.Render("~/bundles/Support/bootstrap")
     <!-- 引入绑定了多个自定义Bootstrap主题的JS脚本文件 -->
-    @Scripts.Render("~/bundles/_MainLayout/Hexa/js")
+    @Scripts.Render("~/bundles/ClientTheme/js")
     <!-- 允许子视图脚本为空 -->
     @RenderSection("scripts", required: false)
 </body>

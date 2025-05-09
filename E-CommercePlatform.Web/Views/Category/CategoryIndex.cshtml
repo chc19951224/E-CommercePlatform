@@ -7,7 +7,7 @@
     <!-- 在这里限制category的数量 -->
 }
 
-@Html.Partial("Partials/_Slogan")
+@Html.Partial("~/Views/Client/Shared/_SloganPartial.cshtml")
 
 <section class="section" id="products">
     <!-- 标题 -->
@@ -25,7 +25,6 @@
     <!-- 类别容器 -->
     <div class="container">
         <div class="row">
-
             @foreach (var category in Model)
             {
                 <!-- 类别1 -->
@@ -39,7 +38,7 @@
                                     <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
-                            <img src="@category.ImageUrl" alt="未加载图片">
+                            <img src="@category.ImageUrl" class="img-thumbnail" alt="未加载图片">
                         </div>
 
                         <div class="down-content">
@@ -57,61 +56,15 @@
                     </div>
                 </div>
             }
-
-
-
-            <!-- 分页 -->
-            <div class="col-lg-12">
-                <div class="pagination">
-                    <ul>
-                        <li>
-                            <a href="#">1</a>
-                        </li>
-                        <li class="active">
-                            <a href="#">2</a>
-                        </li>
-                        <li>
-                            <a href="#">3</a>
-                        </li>
-                        <li>
-                            <a href="#">4</a>
-                        </li>
-                        <li>
-                            <a href="#">></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
 </section>
+<hr />
 
-
-
-
-@*<div>
-        <table>
-            <thead>
-                <tr>
-                    <th>名 称</th>
-                    <th>描 述</th>
-                    <th>图 片</th>
-                    <th>精 选</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var category in Model)
-                {
-                    <tr>
-                        <td>@category.Name</td>
-                        <td>@category.Description</td>
-                        <td>
-                            <img src="@category.ImageUrl" alt="未加载图片" width="100" />
-                        </td>
-                        <td>@(category.IsFeatured ? "是" : "否")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>*@
+<style>
+    .thumb img {
+        width: 100%; /* 或者指定宽度如 200px */
+        height: 300px; /* 统一高度 */
+        object-fit: cover; /* 保持比例填满容器 */
+    }
+</style>

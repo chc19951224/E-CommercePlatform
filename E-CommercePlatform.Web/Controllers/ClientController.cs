@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace E_CommercePlatform.Web.Controllers
 {
-    public class HomeController : Controller
+    public class ClientController : Controller
     {
-        public ActionResult Index()
+        public ActionResult ClientIndex()
         {
             return View();
         }
