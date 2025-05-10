@@ -185,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\DashBoardTheme\assets\css\jqvmap.min.css" />
+    <Content Include="Content\DashBoardTheme\assets\css\metisMenu.min.css" />
     <Content Include="Content\DashBoardTheme\assets\css\owl.carousel.min.css" />
     <Content Include="Content\DashBoardTheme\assets\css\owl.theme.default.min.css" />
     <Content Include="Content\DashBoardTheme\assets\css\style.css" />
@@ -202,6 +203,7 @@
     <Content Include="Content\DashBoardTheme\assets\js\jquery.flot.resize.js" />
     <Content Include="Content\DashBoardTheme\assets\js\jquery.vmap.min.js" />
     <Content Include="Content\DashBoardTheme\assets\js\jquery.vmap.usa.js" />
+    <Content Include="Content\DashBoardTheme\assets\js\metisMenu.min.js" />
     <Content Include="Content\DashBoardTheme\assets\js\morris.min.js" />
     <Content Include="Content\DashBoardTheme\assets\js\owl.carousel.min.js" />
     <Content Include="Content\DashBoardTheme\assets\js\quixnav-init.js" />
@@ -364,6 +366,8 @@
     <Content Include="Views\Category\UpdateCategory.cshtml" />
     <Content Include="Views\Client\Shared\_SloganPartial.cshtml" />
     <Content Include="Views\Product\ProductIndex.cshtml" />
+    <Content Include="Views\Dashboard\Shared\_NavbarPartial.cshtml" />
+    <Content Include="Views\Category\CategoryManagement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

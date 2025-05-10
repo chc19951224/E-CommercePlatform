@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>管 理 后 台</title>
 
+    <!-- Font Awesome 6（最新） -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <!-- 引入绑定了多个自定义Bootstrap主题的CSS样式文件 -->
     @Styles.Render("~/bundles/DashboardTheme/css")
     <!-- 引入绑定了多个检测浏览器和主题兼容的CSS样式文件 -->
@@ -24,9 +27,14 @@
         </div>
     </div>
 
+
     <div id="main-wrapper">
         <!-- Header -->
-        <div>
+        <div class="nav-header">
+            @Html.Partial("~/Views/Dashboard/Shared/_NavbarPartial.cshtml")
+        </div>
+
+        <div class="header">
             @Html.Partial("~/Views/Dashboard/Shared/_HeaderPartial.cshtml")
         </div>
 

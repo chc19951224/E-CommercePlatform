@@ -47,6 +47,9 @@ namespace E_CommercePlatform.Web
 
             //【Dashboard】捆绑自定义Bootstrap的所需脚本
             bundles.Add(new ScriptBundle("~/bundles/DashboardTheme/js").Include(
+                      //metisMenu
+                      "~/Content/DashboardTheme/assets/js/metisMenu.min.js",
+
                       //Required vendors
                       "~/Content/DashboardTheme/assets/js/global.min.js",
                       "~/Content/DashboardTheme/assets/js/quixnav-init.js",
@@ -88,6 +91,9 @@ namespace E_CommercePlatform.Web
 
             //【Dashboard】捆绑自定义Bootstrap所需样式
             bundles.Add(new StyleBundle("~/bundles/DashboardTheme/css").Include(
+                      //metisMenu
+                      "~/Content/DashboardTheme/assets/css/metisMenu.min.css",
+
                       "~/Content/DashboardTheme/assets/css/owl.carousel.min.css",
                       "~/Content/DashboardTheme/assets/css/owl.theme.default.min.css",
                       "~/Content/DashboardTheme/assets/css/jqvmap.min.css",

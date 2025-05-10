@@ -24,6 +24,14 @@ namespace E_CommercePlatform.Web.Controllers
             return View(categorise);
         }
 
+        //【管理类别】
+        [HttpGet]
+        public ActionResult CategoryManagement() {
+            var categorise = categoryService.FindAllCategories(); // 调用服务层方法，查询出所有类别数据
+            return View(categorise);
+        }
+
+
         //【新增视图】
         [HttpGet]
         public ActionResult CreateCategory()

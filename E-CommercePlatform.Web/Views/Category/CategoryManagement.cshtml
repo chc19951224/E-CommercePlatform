@@ -1,0 +1,130 @@
+﻿<!-- 数据源 -->
+@model List<E_CommercePlatform.Entities.Category>
+
+<!-- 视图标题 -->
+@{
+    ViewBag.Title = "管 理 类 别";
+    Layout = "~/Views/Dashboard/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row page-titles mx-0">
+        <div class="col-sm-6 p-md-0">
+            <div class="welcome-text">
+                <h4>Hi, welcome back!</h4>
+                <p class="mb-0">Your business dashboard template</p>
+            </div>
+        </div>
+        <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Bootstrap</a></li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-4">
+                <h2 class="heading-section">管 理 类 别</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                @*<h3 class="h5 mb-4 text-center">Table Accordion</h3>*@
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr>
+                                <th>编 号</th>
+                                <th>图 片</th>
+                                <th>名 称</th>
+                                <th>描 述</th>
+                                <th>精 选</th>
+                                <th>操 作</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var category in Model)
+                            {
+                                <tr class="alert" role="alert">
+                                    <!-- 编号 -->
+                                    <td>@category.Id</td>
+
+                                    <!-- 图片 -->
+                                    <td>
+                                        <div class="img" style="background-image: url('@category.ImageUrl');"></div>
+                                    </td>
+
+                                    <!-- 名称 -->
+                                    <td>@category.Name</td>
+
+                                    <!-- 描述 -->
+                                    <td>@category.Description</td>
+
+                                    <!-- 特色 -->
+                                    <td>
+                                        <label class="checkbox-wrap checkbox-primary">
+                                            <input type="checkbox" checked>
+                                            @category.IsFeatured
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+
+                                    <!-- 操作 -->
+                                    <td>
+                                        <button type="button" class="btn btn-success">@Html.ActionLink("新增", "CreateCategory", "Category")</button>
+                                        <button type="button" class="btn btn-primary">修改</button>
+                                        <button type="button" class="btn btn-danger">删除</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+</script>
+
+<style>
+    .img {
+        width: 100px;
+        height: 100px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* 表头样式 */
+    .table thead th {
+        text-align: center;
+        font-weight: bold;
+        white-space: nowrap; /* 防止文字换行竖排 */
+        vertical-align: middle;
+        background-color: #dff0d8; /* 淡绿色背景 */
+    }
+
+    /* 表格内容样式 */
+    .table tbody td {
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap; /* 防止文字换行 */
+        background-color: #ffffff; /* 白色背景 */
+        color: #000000; /* 黑色字体 */
+    }
+
+    /* 复选框内容对齐 */
+    .checkbox-wrap {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
