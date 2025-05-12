@@ -371,7 +371,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Images\" />
+    <Folder Include="Content\Images\Categories\" />
+    <Folder Include="Content\Images\Products\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\DefaultTheme\assets\css\bootstrap.rtl.min.css.map" />

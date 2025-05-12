@@ -4,12 +4,11 @@
 <!-- 视图标题 -->
 @{
     ViewBag.Title = "类 别 展 示";
-    <!-- 在这里限制category的数量 -->
 }
 
 @Html.Partial("~/Views/Client/Shared/_SloganPartial.cshtml")
 
-<section class="section" id="products">
+<section id="products" class="section">
     <!-- 标题 -->
     <div class="container">
         <div class="row">
@@ -25,7 +24,7 @@
     <!-- 类别容器 -->
     <div class="container">
         <div class="row">
-            @foreach (var category in Model)
+            @foreach (var category in Model.Take(9))
             {
                 <!-- 类别1 -->
                 <div class="col-lg-4">
@@ -44,14 +43,6 @@
                         <div class="down-content">
                             <h4>@category.Name</h4>
                             <span>@category.Description</span>
-
-                            <ul class="stars">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                            </ul>
                         </div>
                     </div>
                 </div>

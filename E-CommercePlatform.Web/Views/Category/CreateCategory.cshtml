@@ -1,39 +1,77 @@
 ﻿
 @{
-    ViewBag.Title = "Create-Category-Page";
+    ViewBag.Title = "CreateCategory";
     Layout = "~/Views/Dashboard/Shared/_DashboardLayout.cshtml";
 }
 
-<div>
-    <h2>新 增 类 别</h2>
+<section style="display: flex; justify-content: center; align-items: flex-start; width: 100%; padding: 20px; font-size: 16px;">
+    <div style="width: 100%; max-width: 900px;">
 
-    <form id="tableForm" method="post" enctype="multipart/form-data">
-        <label>名 称</label>
-        <input id="nameInput" name="Name" />
-        <br />
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-center">新 增 类 别</h5>
 
-        <label>描 述</label>
-        <input id="descriptionInput" name="Description" />
-        <br />
+                <!-- 表单 -->
+                <form id="tableForm" method="post" enctype="multipart/form-data">
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">名 称</label>
 
-        <label>图 片</label>
-        <!-- 选择按钮 -->
-        <input id="selectButton" name="ImageUrl" type="file" accept=".jpg, .png" alt="未加载图片" />
-        <br />
+                        <div class="col-sm-10">
+                            <input id="nameInput" name="Name" type="text" class="form-control">
+                        </div>
+                    </div>
 
-        <!-- 预览图片 -->
-        <div class="img-thumbnail">
-            <img id="previewImage" src="#" width="300" />
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">描 述</label>
+
+                        <div class="col-sm-10">
+                            <input id="descriptionInput" name="Description" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">图 片</label>
+
+                        <div class="col-sm-10">
+                            <!-- 预览图片区域 -->
+                            <div class="img-thumbnail picture">
+                                <img id="previewImage" class="picture__img" src="#" />
+                            </div>
+
+                            <!-- 自定义上传按钮 -->
+                            <label for="selectButton" class="custom-file-upload mt-3">
+                                选择图片上传
+                            </label>
+                            <input id="selectButton" name="ImageUrl" type="file" accept=".jpg, .png" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">精 选</label>
+
+                        <div class="col-sm-10">
+                            <input id="trueFeatured" name="IsFeatured" type="radio" value="true" />属于
+                            <input id="falseFeatured" name="IsFeatured" type="radio" value="false" />不属于
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 justify-content-center">
+                        <div class="d-flex gap-3 align-items-center">
+                            <div class="col-auto">
+                                <button id="confirmButton" type="submit" class="btn-gradient">确 定</button>
+                            </div>
+
+                            <div class="col-auto">
+                                @Html.ActionLink("取消", "CategoryManagement", "Category", null, new { @id = "cancelButton", @class = "btn-neutral" })
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
         </div>
-
-        <label>精 选</label>
-        <input id="trueFeatured" name="IsFeatured" type="radio" value="true" />属于
-        <input id="falseFeatured" name="IsFeatured" type="radio" value="false" />不属于
-        <br />
-
-        <button id="confirmButton" type="submit">确定</button>
-    </form>
-</div>
+    </div>
+</section>
 
 <script>
     const tableForm = document.getElementById("tableForm"); // 通过id属性，获取表单数据
@@ -45,12 +83,16 @@
     // 监听选择图片按钮的变化事件
     selectButton.addEventListener("change", function () {
         const choseFile = selectButton.files[0]; // 获取选择的文件
+        const pictureBox = document.querySelector(".picture");
+
         if (choseFile) {
             const reader = new FileReader(); // 创建FileReader对象
 
             // 监听文件读取完成事件
             reader.onload = function (e) {
                 previewImage.src = e.target.result; // 设置预览图片的src属性为选择的文件
+                previewImage.style.display = "block"; // 显示图片
+                pictureBox.classList.add("has-image"); // 隐藏提示文字（通过CSS控制）
             };
             reader.readAsDataURL(choseFile); // 将文件读取为DataURL格式
         }
@@ -62,17 +104,17 @@
         ex.preventDefault(); // 阻止按钮submit属性的默认提交
         const formPayload = new FormData(tableForm); // 创建一个新的FormData对象，封装表单数据
 
-        // 发送AJAX请求
+        // 发送Promise请求到服务器
         fetch("/Category/CreateCategory", {
             method: "POST", // 请求方法
             body: formPayload, // 请求体
         })
-            // 后端请求成功后返回响应，检查响应状态
+            // 处理服务器响应，如果响应成功，则将JSON数据解析为JavaScript对象
             .then((response) => {
                 if (response.ok) {
-                    return response.json(); // 将响应体解析为JSON格式，并传递给下一个then
+                    return response.json();
                 } else {
-                    throw new Error("发送网络错误！"); // 响应状态不在200-299范围内，抛出错误
+                    throw new Error("发生网络错误！"); // 响应状态不在200-299范围内，抛出错误
                 }
             })
             // 处理解析后的JSON数据，检查后端业务的结果
@@ -85,9 +127,161 @@
                     alert("数据异常！" + data.Message); // 后端业务失败消息提示
                 }
             })
-            // 捕获请求或解析JSON时的错误
-            .catch((error) => {
-                console.error("请求失败：", error); // 捕获并打印错误
+            .catch(error => {
+                alert("请求失败！" + error.message);
             });
     })
 </script>
+
+<style>
+    /* 表单标题字体大、醒目 */
+    .card-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    /* 所有表单文字大小统一、视觉居中 */
+    label.col-form-label, .form-control {
+        font-size: 16px;
+    }
+
+    /* 美化按钮样式 */
+    .btn-gradient {
+        padding: 10px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 25px;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        color: white;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+    /* 灰色取消按钮美化 */
+    .btn-cancel {
+        padding: 10px 30px;
+        font-size: 16px;
+        border: none;
+        border-radius: 25px;
+        background: #ccc;
+        color: #333;
+        transition: background 0.3s ease;
+    }
+
+        .btn-cancel:hover {
+            background: #aaa;
+        }
+
+    /* ✅ 优化后的图片预览区域 */
+    .picture {
+        width: 400px;
+        aspect-ratio: 16 / 9;
+        background-color: #f8f9fa;
+        border: 2px dashed #ccc;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 16px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* ✅ 优化后的图片样式 */
+    .picture__img {
+        max-width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none; /* 默认隐藏，等图片加载后再显示 */
+    }
+
+    /* ✅ 加一个默认提示文本 */
+    .picture::before {
+        content: "暂无预览图片";
+        position: absolute;
+        color: #aaa;
+        font-size: 16px;
+    }
+
+    .picture.has-image::before {
+        content: none;
+    }
+
+    /* ✅ 渐变“确定”按钮样式 */
+    .btn-gradient {
+        padding: 10px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 25px;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        color: white;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+    /* ✅ 专业风格“取消”按钮样式 */
+    .btn-neutral {
+        padding: 10px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 25px;
+        background: #e0e0e0;
+        color: #333;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+        .btn-neutral:hover {
+            background: #c7c7c7;
+            color: #000;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+        }
+
+    /* ✅ 更优雅的上传按钮样式 */
+    .custom-file-upload {
+        display: inline-block;
+        padding: 10px 25px;
+        font-size: 15px;
+        font-weight: bold;
+        color: #4facfe;
+        background-color: #ffffff;
+        border: 2px dashed #4facfe;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        margin-bottom: 15px;
+        /* ✅ 增加和预览图之间的间距 */
+    }
+
+        .custom-file-upload:hover {
+            background-color: #f0faff;
+            border-color: #00c6ff;
+            color: #0072ff;
+        }
+
+    /* ✅ 隐藏原始上传按钮 */
+    input[type="file"] {
+        display: none;
+    }
+</style>

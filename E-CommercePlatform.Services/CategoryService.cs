@@ -31,6 +31,22 @@ namespace E_CommercePlatform.Services
             }
         }
 
+        //【查询】通过传入整型 searchKey 参数，查询名称包含关键字的相关类别数据。
+        public List<Category> FindCategoryByKey(string searchKey)
+        {
+            using (var context = new E_CommerceContext())
+            {
+                if (string.IsNullOrEmpty(searchKey))
+                {
+                    return new List<Category>(); // 返回空列表，避免前端出错
+                }
+                else
+                {
+                    return context.Categories.Where(c => c.Name.Contains(searchKey)).ToList();
+                }
+            }
+        }
+
         //【新增】通过传入对象 category 参数，新增类别数据。
         public void AddCategory(Category category)
         {
@@ -41,12 +57,11 @@ namespace E_CommercePlatform.Services
             }
         }
 
-        //【修改】通过传入整型 id 参数，修改指定的类别数据。
-        public void ModifyCategory(int id)
+        //【修改】通过传入对象 category 参数，修改指定的类别数据。
+        public void ModifyCategory(Category category)
         {
             using (var context = new E_CommerceContext())
             {
-                var category = context.Categories.Find(id); // 查询指定的类别数据
                 context.Entry(category).State = EntityState.Modified; // 修改类别数据
                 context.SaveChanges(); // 提交修改
             }

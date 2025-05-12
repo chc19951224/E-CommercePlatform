@@ -24,107 +24,333 @@
     </div>
 </div>
 
-<section class="ftco-section">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 text-center mb-4">
-                <h2 class="heading-section">管 理 类 别</h2>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                @*<h3 class="h5 mb-4 text-center">Table Accordion</h3>*@
-                <div class="table-wrap">
-                    <table class="table">
-                        <thead class="thead-primary">
-                            <tr>
-                                <th>编 号</th>
-                                <th>图 片</th>
-                                <th>名 称</th>
-                                <th>描 述</th>
-                                <th>精 选</th>
-                                <th>操 作</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach (var category in Model)
-                            {
-                                <tr class="alert" role="alert">
-                                    <!-- 编号 -->
-                                    <td>@category.Id</td>
-
-                                    <!-- 图片 -->
-                                    <td>
-                                        <div class="img" style="background-image: url('@category.ImageUrl');"></div>
-                                    </td>
-
-                                    <!-- 名称 -->
-                                    <td>@category.Name</td>
-
-                                    <!-- 描述 -->
-                                    <td>@category.Description</td>
-
-                                    <!-- 特色 -->
-                                    <td>
-                                        <label class="checkbox-wrap checkbox-primary">
-                                            <input type="checkbox" checked>
-                                            @category.IsFeatured
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </td>
-
-                                    <!-- 操作 -->
-                                    <td>
-                                        <button type="button" class="btn btn-success">@Html.ActionLink("新增", "CreateCategory", "Category")</button>
-                                        <button type="button" class="btn btn-primary">修改</button>
-                                        <button type="button" class="btn btn-danger">删除</button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div class="col-md-12 d-flex align-items-center">
+            <div class="flex-grow-1 me-2">
+                <div class="input-group">
+                    <!-- 文本输入框 -->
+                    <input id="searchBox" name="searchKey" class="form-control search-input" type="search" placeholder="请输入类别名称进行查询..." aria-label="Search">
+                    <!-- 搜索按钮 -->
+                    <button id="searchButton" class="btn btn-search btn-lg" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
+            </div>
+
+            <!-- 新增按钮 -->
+            <div class="flex-grow-1">
+                @Html.ActionLink("新 增 类 别", "CreateCategory", "Category", null, new { @class = "btn btn-new-category btn-lg w-100 text-center" })
             </div>
         </div>
     </div>
-</section>
+
+    <!-- 表格 -->
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle text-center">
+            <thead class="table-primary">
+                <tr>
+                    <th>图 片</th>
+                    <th>名 称</th>
+                    <th>精 选</th>
+                    <th>操 作</th>
+                </tr>
+            </thead>
+
+            <tbody id="refreshTable">
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <!-- 图片 -->
+                        <td>
+                            <img src="@category.ImageUrl" class="img-thumbnail rounded-circle img-fluid" style="width: 100px; height: 100px;" />
+                        </td>
+
+                        <!-- 名称 -->
+                        <td>@category.Name</td>
+
+                        <!-- 精选 -->
+                        <td>
+                            <div class="form-check form-switch d-inline-block">
+                                <label class="form-check-label">@((category.IsFeatured) ? "属于" : "不属于")</label>
+                            </div>
+                        </td>
+
+                        <!-- 操作 -->
+                        <td>
+                            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                @Html.ActionLink("修改", "UpdateCategory", "Category", new { id = category.Id }, new { @class = "btn btn-warning btn-sm" })
+                                <button class="deletebutton btn btn-danger btn-sm" data-id="@category.Id" type="button">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <script>
+    //【查询】监听搜索按钮的点击事件
+    const searchBox = document.getElementById("searchBox");
+    const searchButton = document.getElementById("searchButton");
 
+    searchButton.addEventListener("click", function () {
+        const searchBoxValue = searchBox.value.trim();
+
+        // 发送Promise请求到服务器
+        fetch("/Category/GetCategoryByKey", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ searchKey: searchBoxValue })
+        })
+            // 处理服务器响应，如果响应成功，则将JSON数据解析为JavaScript对象
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("网络错误");
+                }
+            })
+            // 处理解析后的JSON数据，检查后端业务的结果
+            .then(data => {
+                const refreshTable = document.getElementById("refreshTable");
+                refreshTable.innerHTML = ""; // 先清空旧表格内容
+
+                if (data.Success && data.Result.length > 0) {
+                    data.Result.forEach(category => {
+                        const row = document.createElement("tr");
+
+                        row.innerHTML =
+                        `
+                            <td><img src="${category.ImageUrl}" class="img-thumbnail rounded-circle img-fluid" style="width: 100px; height: 100px;" /></td>
+                            <td>${category.Name}</td>
+                            <td><div class="form-check form-switch d-inline-block"><label class="form-check-label">${category.IsFeatured ? "属于" : "不属于"}</label></div></td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                    <a href="/Category/UpdateCategory?id=${category.Id}" class="btn btn-warning btn-sm">修改</a>
+                                    <a href="/Category/DeleteCategory?id=${category.Id}" class="btn btn-danger btn-sm">删除</a>
+                                </div>
+                            </td>
+                        `;
+                        refreshTable.appendChild(row);
+                    });
+                }
+            })
+            .catch(error => {
+                alert("请求失败！" + error.message);
+            });
+    });
+
+
+    //【删除】监听删除按钮的点击事件
+    const deletebuttons = document.querySelectorAll(".deletebutton"); // 获取所有删除按钮
+
+    deletebuttons.forEach(button => {
+        button.addEventListener("click", function (event) {
+            const categoryId = event.target.getAttribute("data-id");
+
+            // 加入确认提示
+            const confirmDelete = confirm("确定要删除这个类别吗？");
+            if (!confirmDelete) {
+                return; // 用户取消操作
+            }
+
+            fetch("/Category/DeleteCategory", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ id: categoryId }),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error("网络错误");
+                    }
+                })
+                .then(data => {
+                    if (data.Success) {
+                        alert(data.Message);
+                        window.location.reload(); // 刷新页面
+                    } else {
+                        alert("数据异常！" + data.Message);
+                    }
+                })
+                .catch(error => {
+                    alert("请求失败！" + error.message);
+                });
+        });
+    });
 </script>
 
+
 <style>
-    .img {
-        width: 100px;
-        height: 100px;
-        background-size: cover;
-        background-position: center;
+    /* 搜索框与按钮整体样式 */
+    .input-group {
+        display: flex;
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
     }
 
-    /* 表头样式 */
-    .table thead th {
-        text-align: center;
-        font-weight: bold;
-        white-space: nowrap; /* 防止文字换行竖排 */
-        vertical-align: middle;
-        background-color: #dff0d8; /* 淡绿色背景 */
+    .search-input {
+        border-radius: 8px 0 0 8px;
+        padding: 15px 25px;
+        font-size: 1.1rem;
+        border: 1px solid #007bff;
+        transition: all 0.3s ease;
+        height: 50px;
+        flex-grow: 1;
     }
 
-    /* 表格内容样式 */
-    .table tbody td {
-        text-align: center;
-        vertical-align: middle;
-        white-space: nowrap; /* 防止文字换行 */
-        background-color: #ffffff; /* 白色背景 */
-        color: #000000; /* 黑色字体 */
-    }
+        .search-input:focus {
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.8);
+            border-color: #0056b3;
+        }
 
-    /* 复选框内容对齐 */
-    .checkbox-wrap {
-        display: inline-flex;
+    /* 修改后的新增类别按钮的配色 */
+    .btn-new-category {
+        background: linear-gradient(45deg, #FF5733, #FF8C00); /* 渐变色 */
+        border-color: #FF5733;
+        padding: 15px 30px;
+        font-size: 1.1rem; /* 调整为与表头一致的字体大小 */
+        border-radius: 8px;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        height: 50px;
+        width: 150px; /* 设置搜索按钮和新增按钮的宽度一致 */
+        text-align: center; /* 确保文本居中 */
+        display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+        .btn-new-category:hover {
+            background: linear-gradient(45deg, #FF4500, #FF8C00);
+            border-color: #FF5733;
+        }
+
+    /* 搜索按钮的配色与大小 */
+    .btn-search {
+        background: linear-gradient(45deg, #007bff, #00c6ff); /* 渐变色 */
+        border-color: #007bff;
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        border-radius: 8px;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        height: 50px;
+        width: 150px; /* 和新增按钮宽度一致 */
+    }
+
+        .btn-search:hover {
+            background: linear-gradient(45deg, #0056b3, #00c6ff);
+            border-color: #007bff;
+        }
+
+    .btn i {
+        font-size: 1.2rem;
+    }
+
+    .btn-lg {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        height: 50px;
+        border-radius: 8px;
+    }
+
+    .w-100 {
+        width: 100%; /* 新增按钮占满一行 */
+    }
+
+    /* 表格样式 */
+    .table-responsive {
+        margin-top: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    table {
+        font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    /* 表头背景颜色渐变 */
+    thead.table-primary th {
+        background: linear-gradient(45deg, #007bff, #00c6ff); /* 渐变色 */
+        color: white;
+        font-size: 1.1rem; /* 表头字体大小 */
+        text-align: center;
+        font-weight: 600;
+    }
+
+    /* 表格内容行的间隔 */
+    tbody tr:nth-child(odd) {
+        background-color: #f8f9fa;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+
+    tbody tr:hover {
+        background-color: #f1f5f8;
+    }
+
+    /* 图片缩略图圆形 */
+    td img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    /* 精选内容样式 */
+    .form-check-label {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    /* 操作按钮样式 */
+    .d-flex {
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    /* 操作按钮悬停效果 */
+    .btn:hover {
+        opacity: 0.85;
     }
 </style>
