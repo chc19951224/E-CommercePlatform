@@ -11,10 +11,11 @@ namespace E_CommercePlatform.Services
 {
     public class CategoryService
     {
+        #region 查询服务
         //【查询】查询所有类别数据。
         public List<Category> FindAllCategories()
         {
-            //【备注1 语法糖】using 用来显示释放资源，等价于 try...finally 语句。
+            //【备注1 语法糖】using 用来显示释放资源。
             using (var context = new E_CommerceContext())
             {
                 return context.Categories.ToList(); // 查询所有类别数据，并转换为列表返回
@@ -46,7 +47,9 @@ namespace E_CommercePlatform.Services
                 }
             }
         }
+        #endregion
 
+        #region 新增服务
         //【新增】通过传入对象 category 参数，新增类别数据。
         public void AddCategory(Category category)
         {
@@ -56,7 +59,9 @@ namespace E_CommercePlatform.Services
                 context.SaveChanges(); // 提交新增
             }
         }
+        #endregion
 
+        #region 修改服务
         //【修改】通过传入对象 category 参数，修改指定的类别数据。
         public void ModifyCategory(Category category)
         {
@@ -66,7 +71,9 @@ namespace E_CommercePlatform.Services
                 context.SaveChanges(); // 提交修改
             }
         }
+        #endregion
 
+        #region 删除服务
         //【删除】通过传入整型 id 参数，删除指定的类别数据。
         public void RemoveCategoryById(int id)
         {
@@ -77,5 +84,6 @@ namespace E_CommercePlatform.Services
                 context.SaveChanges(); // 提交删除
             }
         }
+        #endregion
     }
 }

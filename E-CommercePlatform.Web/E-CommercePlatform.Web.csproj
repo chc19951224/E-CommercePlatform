@@ -368,6 +368,8 @@
     <Content Include="Views\Product\ProductIndex.cshtml" />
     <Content Include="Views\Dashboard\Shared\_NavbarPartial.cshtml" />
     <Content Include="Views\Category\CategoryManagement.cshtml" />
+    <Content Include="Views\Product\ProductManagement.cshtml" />
+    <Content Include="Views\Product\CreateProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -409,6 +411,10 @@
     <ProjectReference Include="..\E-CommercePlatform.Services\E-CommercePlatform.Services.csproj">
       <Project>{bf4a580b-30b2-4666-9c2f-c76ac3f8ab46}</Project>
       <Name>E-CommercePlatform.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\E-CommercePlatform.Shared\E-CommercePlatform.Shared.csproj">
+      <Project>{c3db6c64-e107-4019-b510-1c9b3303132b}</Project>
+      <Name>E-CommercePlatform.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

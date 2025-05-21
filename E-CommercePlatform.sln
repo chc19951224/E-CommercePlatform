@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-CommercePlatform.Web", "E-CommercePlatform.Web\E-CommercePlatform.Web.csproj", "{6B1FF89F-C7AC-4EFF-8A0E-B5665BE701F4}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-CommercePlatform.Entities", "E-CommercePlatform.Entities\E-CommercePlatform.Entities.csproj", "{FEFD49C1-6093-4F53-AA7C-824BAAE3FE73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-CommercePlatform.Services", "E-CommercePlatform.Services\E-CommercePlatform.Services.csproj", "{BF4A580B-30B2-4666-9C2F-C76AC3F8AB46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-CommercePlatform.Shared", "E-CommercePlatform.Shared\E-CommercePlatform.Shared.csproj", "{C3DB6C64-E107-4019-B510-1C9B3303132B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{BF4A580B-30B2-4666-9C2F-C76AC3F8AB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF4A580B-30B2-4666-9C2F-C76AC3F8AB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF4A580B-30B2-4666-9C2F-C76AC3F8AB46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3DB6C64-E107-4019-B510-1C9B3303132B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3DB6C64-E107-4019-B510-1C9B3303132B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3DB6C64-E107-4019-B510-1C9B3303132B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3DB6C64-E107-4019-B510-1C9B3303132B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

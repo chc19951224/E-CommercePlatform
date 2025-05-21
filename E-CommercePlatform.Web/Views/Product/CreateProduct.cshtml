@@ -1,9 +1,8 @@
-﻿<!-- 数据源 -->
-@model E_CommercePlatform.Entities.Category
+﻿<!-- 数据来源 -->
+@model List<E_CommercePlatform.Entities.Category>
 
-<!-- 视图标题和布局 -->
 @{
-    ViewBag.Title = "UpdateCategory";
+    ViewBag.Title = "新 增 商 品";
     Layout = "~/Views/Dashboard/Shared/_DashboardLayout.cshtml";
 }
 
@@ -12,17 +11,29 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title text-center">更 新 类 别</h5>
+                <h5 class="card-title text-center">新 增 商 品</h5>
 
                 <!-- 表单 -->
                 <form id="tableForm" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="Id" value="@Model.Id" />
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">所属类别</label>
+
+                        <div class="col-sm-10">
+                            <select name="AssociatedCategoryId" class="form-select">
+                                <option selected>下拉选取类别</option>
+                                @foreach (var category in Model)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label">名 称</label>
 
                         <div class="col-sm-10">
-                            <input id="nameInput" name="Name" type="text" class="form-control" value="@Model.Name">
+                            <input id="nameInput" name="Name" type="text" class="form-control">
                         </div>
                     </div>
 
@@ -30,7 +41,15 @@
                         <label class="col-sm-2 col-form-label">描 述</label>
 
                         <div class="col-sm-10">
-                            <input id="descriptionInput" name="Description" type="text" class="form-control" value="@Model.Description">
+                            <input id="descriptionInput" name="Description" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">价 格</label>
+
+                        <div class="col-sm-10">
+                            <input id="priceInput" name="Price" type="text" class="form-control">
                         </div>
                     </div>
 
@@ -38,9 +57,9 @@
                         <label class="col-sm-2 col-form-label">图 片</label>
 
                         <div class="col-sm-10">
-                            <!-- 预览图片 -->
+                            <!-- 预览图片区域 -->
                             <div class="img-thumbnail picture">
-                                <img id="previewImage" class="picture__img" src="@Model.ImageUrl" />
+                                <img id="previewImage" class="picture__img" src="#" />
                             </div>
 
                             <!-- 自定义上传按钮 -->
@@ -55,8 +74,8 @@
                         <label class="col-sm-2 col-form-label">精 选</label>
 
                         <div class="col-sm-10">
-                            <input id="trueFeatured" name="IsFeatured" type="radio" value="true" @(Model.Feature ? "checked" : "") />属于
-                            <input id="falseFeatured" name="IsFeatured" type="radio" value="false" @(!Model.Feature ? "checked" : "") />不属于
+                            <input id="trueFeatured" name="IsFeatured" type="radio" value="true" />属于
+                            <input id="falseFeatured" name="IsFeatured" type="radio" value="false" />不属于
                         </div>
                     </div>
 
@@ -67,7 +86,7 @@
                             </div>
 
                             <div class="col-auto">
-                                @Html.ActionLink("取消", "CategoryManagement", "Category", null, new { @id = "cancelButton", @class = "btn-neutral" })
+                                @Html.ActionLink("取消", "ProductManagement", "Product", null, new { @id = "cancelButton", @class = "btn-neutral" })
                             </div>
                         </div>
                     </div>
@@ -88,16 +107,21 @@
     // 监听选择图片按钮的变化事件
     selectButton.addEventListener("change", function () {
         const choseFile = selectButton.files[0]; // 获取选择的文件
+        const pictureBox = document.querySelector(".picture");
+
         if (choseFile) {
             const reader = new FileReader(); // 创建FileReader对象
 
             // 监听文件读取完成事件
             reader.onload = function (e) {
                 previewImage.src = e.target.result; // 设置预览图片的src属性为选择的文件
+                previewImage.style.display = "block"; // 显示图片
+                pictureBox.classList.add("has-image"); // 隐藏提示文字（通过CSS控制）
             };
             reader.readAsDataURL(choseFile); // 将文件读取为DataURL格式
         }
     })
+
 
     // 监听提交按钮的点击事件
     confirmButton.addEventListener("click", function (ex) {
@@ -105,7 +129,7 @@
         const formPayload = new FormData(tableForm); // 创建一个新的FormData对象，封装表单数据
 
         // 发送Promise请求到服务器
-        fetch("/Category/UpdateCategory", {
+        fetch("/Product/CreateProduct", {
             method: "POST", // 请求方法
             body: formPayload, // 请求体
         })
@@ -114,7 +138,7 @@
                 if (response.ok) {
                     return response.json();
                 } else {
-                    throw new Error("发送网络错误！"); // 响应状态不在200-299范围内，抛出错误
+                    throw new Error("发生网络错误！"); // 响应状态不在200-299范围内，抛出错误
                 }
             })
             // 处理解析后的JSON数据，检查后端业务的结果
@@ -181,23 +205,42 @@
             background: #aaa;
         }
 
+    /* ✅ 优化后的图片预览区域 */
     .picture {
         width: 400px;
-        aspect-ratio: 16/9;
-        background: #ddd;
+        aspect-ratio: 16 / 9;
+        background-color: #f8f9fa;
+        border: 2px dashed #ccc;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #aaa;
-        border: 2px dashed currentcolor;
-        overflow: hidden;
+        color: #999;
+        font-size: 16px;
         position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease-in-out;
     }
 
+    /* ✅ 优化后的图片样式 */
     .picture__img {
         max-width: 100%;
         height: 100%;
         object-fit: cover;
+        display: none; /* 默认隐藏，等图片加载后再显示 */
+    }
+
+    /* ✅ 加一个默认提示文本 */
+    .picture::before {
+        content: "暂无预览图片";
+        position: absolute;
+        color: #aaa;
+        font-size: 16px;
+    }
+
+    .picture.has-image::before {
+        content: none;
     }
 
     /* ✅ 渐变“确定”按钮样式 */

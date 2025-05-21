@@ -1,9 +1,9 @@
 ﻿<!-- 数据源 -->
-@model List<E_CommercePlatform.Entities.Category>
+@model List<E_CommercePlatform.Shared.ProductAdminViewModel>
 
 <!-- 视图标题 -->
 @{
-    ViewBag.Title = "管 理 类 别";
+    ViewBag.Title = "管 理 商 品";
     Layout = "~/Views/Dashboard/Shared/_DashboardLayout.cshtml";
 }
 
@@ -30,7 +30,7 @@
             <div class="flex-grow-1 me-2">
                 <div class="input-group">
                     <!-- 文本输入框 -->
-                    <input id="searchBox" name="searchKey" class="form-control search-input" type="search" placeholder="请输入类别名称进行查询..." aria-label="Search">
+                    <input id="searchBox" name="searchKey" class="form-control search-input" type="search" placeholder="请输入商品名称进行查询..." aria-label="Search">
                     <!-- 搜索按钮 -->
                     <button id="searchButton" class="btn btn-search btn-lg" type="button">
                         <i class="fas fa-search"></i>
@@ -40,7 +40,7 @@
 
             <!-- 新增按钮 -->
             <div class="flex-grow-1">
-                @Html.ActionLink("新 增 类 别", "CreateCategory", "Category", null, new { @class = "btn btn-new-category btn-lg w-100 text-center" })
+                @Html.ActionLink("新 增 商 品", "CreateProduct", "Product", null, new { @class = "btn btn-new-category btn-lg w-100 text-center" })
             </div>
         </div>
     </div>
@@ -50,37 +50,45 @@
         <table class="table table-hover table-bordered align-middle text-center">
             <thead class="table-primary">
                 <tr>
+                    <th>所 属 类 别</th>
                     <th>图 片</th>
                     <th>名 称</th>
+                    <th>价 格</th>
                     <th>特 色</th>
                     <th>操 作</th>
                 </tr>
             </thead>
 
             <tbody id="refreshTable">
-                @foreach (var category in Model)
+                @foreach (var product in Model)
                 {
                     <tr>
+                        <!-- 所属类别 -->
+                        <td>@product.CategoryName</td>
+
                         <!-- 图片 -->
                         <td>
-                            <img src="@category.ImageUrl" class="img-thumbnail rounded-circle img-fluid" style="width: 100px; height: 100px;" />
+                            <img src="@product.ImageUrl" class="img-thumbnail rounded-circle img-fluid" style="width: 100px; height: 100px;" />
                         </td>
 
                         <!-- 名称 -->
-                        <td>@category.Name</td>
+                        <td>@product.Name</td>
+
+                        <!-- 价格 -->
+                        <td>@product.Price</td>
 
                         <!-- 特色 -->
                         <td>
                             <div class="form-check form-switch d-inline-block">
-                                <label class="form-check-label">@((category.Feature) ? "属于" : "不属于")</label>
+                                <label class="form-check-label">@((product.Feature) ? "属于" : "不属于")</label>
                             </div>
                         </td>
 
                         <!-- 操作 -->
                         <td>
                             <div class="d-flex justify-content-center gap-2 flex-wrap">
-                                @Html.ActionLink("修改", "UpdateCategory", "Category", new { id = category.Id }, new { @class = "btn btn-warning btn-sm" })
-                                <button class="deletebutton btn btn-danger btn-sm" data-id="@category.Id" type="button">删除</button>
+                                @Html.ActionLink("更新", "UpdateProduct", "Product", new { id = product.Id }, new { @class = "btn btn-warning btn-sm" })
+                                <button class="deletebutton btn btn-danger btn-sm" data-id="@product.Id" type="button">删除</button>
                             </div>
                         </td>
                     </tr>
@@ -99,7 +107,7 @@
         const searchBoxValue = searchBox.value.trim();
 
         // 发送Promise请求到服务器
-        fetch("/Category/GetCategoryByKey", {
+        fetch("/Product/GetProductByKeyForAdmin", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -120,18 +128,20 @@
                 refreshTable.innerHTML = ""; // 先清空旧表格内容
 
                 if (data.Success && data.Result.length > 0) {
-                    data.Result.forEach(category => {
+                    data.Result.forEach(product => {
                         const row = document.createElement("tr");
 
                         row.innerHTML =
-                        `
-                            <td><img src="${category.ImageUrl}" class="img-thumbnail rounded-circle img-fluid" style="width: 100px; height: 100px;" /></td>
-                            <td>${category.Name}</td>
-                            <td><div class="form-check form-switch d-inline-block"><label class="form-check-label">${category.Feature ? "属于" : "不属于"}</label></div></td>
+                            `
+                            <td>${product.CategoryName}</td>
+                            <td><img src="${product.ImageUrl}" class="img-thumbnail rounded-circle img-fluid" style="width: 100px; height: 100px;" /></td>
+                            <td>${product.Name}</td>
+                            <td>${product.Price}</td>
+                            <td><div class="form-check form-switch d-inline-block"><label class="form-check-label">${product.Feature ? "属于" : "不属于"}</label></div></td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2 flex-wrap">
-                                    <a href="/Category/UpdateCategory?id=${category.Id}" class="btn btn-warning btn-sm">修改</a>
-                                    <a href="/Category/DeleteCategory?id=${category.Id}" class="btn btn-danger btn-sm">删除</a>
+                                    <a href="/Category/UpdateCategory?id=${product.Id}" class="btn btn-warning btn-sm">更新</a>
+                                    <a href="/Category/DeleteCategory?id=${product.Id}" class="btn btn-danger btn-sm">删除</a>
                                 </div>
                             </td>
                         `;
@@ -150,7 +160,7 @@
 
     deletebuttons.forEach(button => {
         button.addEventListener("click", function (event) {
-            const categoryId = event.target.getAttribute("data-id");
+            const productId = event.target.getAttribute("data-id");
 
             // 加入确认提示
             const confirmDelete = confirm("确定要删除这个类别吗？");
@@ -158,12 +168,12 @@
                 return; // 用户取消操作
             }
 
-            fetch("/Category/DeleteCategory", {
+            fetch("/Product/DeleteProduct", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ id: categoryId }),
+                body: JSON.stringify({ id: productId }),
             })
                 .then(response => {
                     if (response.ok) {
@@ -212,7 +222,7 @@
             border-color: #0056b3;
         }
 
-    /* 修改后的新增类别按钮的配色 */
+    /* 更新后的新增类别按钮的配色 */
     .btn-new-category {
         background: linear-gradient(45deg, #FF5733, #FF8C00); /* 渐变色 */
         border-color: #FF5733;

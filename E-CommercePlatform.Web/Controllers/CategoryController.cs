@@ -17,7 +17,7 @@ namespace E_CommercePlatform.Web.Controllers
         CategoryService categoryService = new CategoryService();
 
 
-        //***** 显示视图 *****//
+        #region 前台视图
         //【展示类别】
         [HttpGet]
         public ActionResult CategoryIndex()
@@ -25,7 +25,9 @@ namespace E_CommercePlatform.Web.Controllers
             var categorise = categoryService.FindAllCategories(); // 调用服务层方法，查询出所有类别数据
             return View(categorise);
         }
+        #endregion
 
+        #region 后台视图
         //【管理类别】
         [HttpGet]
         public ActionResult CategoryManagement()
@@ -49,9 +51,9 @@ namespace E_CommercePlatform.Web.Controllers
             var category = categoryService.FindCategoryById(id); // 调用服务层方法，查询指定的类别数据
             return PartialView("UpdateCategory", category);
         }
+        #endregion
 
-
-        //***** 视图操作 *****//
+        #region 后台操作
         //【查询视图操作】通过传入整型 searchKey 参数，查询包含名称关键字的相关类别数据。
         [HttpPost]
         public ActionResult GetCategoryByKey(string searchKey)
@@ -165,5 +167,6 @@ namespace E_CommercePlatform.Web.Controllers
                 return Json(new { Success = false, Message = ex.Message }); // 返回给前端的数据错误信息
             }
         }
+        #endregion
     }
 }

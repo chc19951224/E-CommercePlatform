@@ -64,6 +64,10 @@
       <Project>{fefd49c1-6093-4f53-aa7c-824baae3fe73}</Project>
       <Name>E-CommercePlatform.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\E-CommercePlatform.Shared\E-CommercePlatform.Shared.csproj">
+      <Project>{c3db6c64-e107-4019-b510-1c9b3303132b}</Project>
+      <Name>E-CommercePlatform.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

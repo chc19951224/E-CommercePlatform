@@ -56,6 +56,14 @@
     <Compile Include="Migrations\202505071731473_CreateCategoriesTableAndProductsTable.Designer.cs">
       <DependentUpon>202505071731473_CreateCategoriesTableAndProductsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505151217083_Refactor_BaseEntity_CategoryEntity.cs" />
+    <Compile Include="Migrations\202505151217083_Refactor_BaseEntity_CategoryEntity.Designer.cs">
+      <DependentUpon>202505151217083_Refactor_BaseEntity_CategoryEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505151234022_AddCategoriesProductsRelation.cs" />
+    <Compile Include="Migrations\202505151234022_AddCategoriesProductsRelation.Designer.cs">
+      <DependentUpon>202505151234022_AddCategoriesProductsRelation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -72,6 +80,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202505071731473_CreateCategoriesTableAndProductsTable.resx">
       <DependentUpon>202505071731473_CreateCategoriesTableAndProductsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505151217083_Refactor_BaseEntity_CategoryEntity.resx">
+      <DependentUpon>202505151217083_Refactor_BaseEntity_CategoryEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505151234022_AddCategoriesProductsRelation.resx">
+      <DependentUpon>202505151234022_AddCategoriesProductsRelation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,7 +10,5 @@ namespace E_CommercePlatform.Entities
     public class Category : BaseEntity
     {
         public List<Product> AssociatedProducts { get; set; } // 关联的商品，表示一对多关系
-        public string ImageUrl { get; set; } // 图片URL
-        public bool IsFeatured { get; set; } // 是否推荐
     }
 }
