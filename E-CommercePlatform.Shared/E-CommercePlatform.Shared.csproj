@@ -41,10 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoryAdminViewModel.cs" />
     <Compile Include="CategoryUserViewModel.cs" />
     <Compile Include="ProductAdminViewModel.cs" />
+    <Compile Include="ProductFormAdminViewModel.cs" />
     <Compile Include="ProductUserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\E-CommercePlatform.Entities\E-CommercePlatform.Entities.csproj">
+      <Project>{FEFD49C1-6093-4F53-AA7C-824BAAE3FE73}</Project>
+      <Name>E-CommercePlatform.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

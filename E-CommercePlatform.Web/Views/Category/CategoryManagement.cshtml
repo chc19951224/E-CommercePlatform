@@ -1,9 +1,9 @@
 ﻿<!-- 数据源 -->
-@model List<E_CommercePlatform.Entities.Category>
+@model List<E_CommercePlatform.Shared.CategoryAdminViewModel>
 
 <!-- 视图标题 -->
 @{
-    ViewBag.Title = "管 理 类 别";
+    ViewBag.Title = "管 理 分 类";
     Layout = "~/Views/Dashboard/Shared/_DashboardLayout.cshtml";
 }
 
@@ -91,7 +91,7 @@
 </div>
 
 <script>
-    //【查询】监听搜索按钮的点击事件
+    //【查询】搜索按钮事件
     const searchBox = document.getElementById("searchBox");
     const searchButton = document.getElementById("searchButton");
 
@@ -99,7 +99,7 @@
         const searchBoxValue = searchBox.value.trim();
 
         // 发送Promise请求到服务器
-        fetch("/Category/GetCategoryByKey", {
+        fetch("/Category/GetCategoryByKeyForAdmin", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -144,8 +144,7 @@
             });
     });
 
-
-    //【删除】监听删除按钮的点击事件
+    //【删除】群按钮事件
     const deletebuttons = document.querySelectorAll(".deletebutton"); // 获取所有删除按钮
 
     deletebuttons.forEach(button => {
@@ -189,6 +188,7 @@
 
 
 <style>
+    /* #region 搜索框、表格、按钮 样式美化 */
     /* 搜索框与按钮整体样式 */
     .input-group {
         display: flex;
@@ -353,4 +353,5 @@
     .btn:hover {
         opacity: 0.85;
     }
+    /* #endregion */
 </style>

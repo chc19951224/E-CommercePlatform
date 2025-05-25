@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace E_CommercePlatform.Shared
 {
-    public class CategoryUserViewModel
+    public class CategoryAdminViewModel
     {
         public int Id { get; set; } // 类别的序号
         public string Name { get; set; } // 类别的名称

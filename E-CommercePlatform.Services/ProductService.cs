@@ -168,13 +168,29 @@ namespace E_CommercePlatform.Services
         #endregion
 
         #region 修改服务
-        //【修改】通过传入对象 product 参数，修改指定的商品数据。
-        public void ModifyProduct(Product product)
+        public void ModifyProduct(ProductFormAdminViewModel viewModel)
         {
             using (var context = new E_CommerceContext())
             {
-                context.Entry(product).State = EntityState.Modified; // 修改商品数据
-                context.SaveChanges(); // 提交修改
+                var product = context.Products.Include(p => p.AssociatedCategory).FirstOrDefault(p => p.Id == viewModel.Product.Id);
+                if (product == null)
+                {
+                    throw new Exception("未找到该商品！");
+                }
+
+                product.Name = viewModel.Product.Name;
+                product.ImageUrl = viewModel.Product.ImageUrl;
+                product.Description = viewModel.Product.Description;
+                product.Price = viewModel.Product.Price;
+                product.Feature = viewModel.Product.Feature;
+
+                var category = context.Categories.Find(viewModel.Product.CategoryId);
+                if (category != null)
+                {
+                    product.AssociatedCategory = category;
+                }
+
+                context.SaveChanges();
             }
         }
         #endregion

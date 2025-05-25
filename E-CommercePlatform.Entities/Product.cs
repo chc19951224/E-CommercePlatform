@@ -10,7 +10,7 @@ namespace E_CommercePlatform.Entities
     public class Product : BaseEntity
     {
         public Category AssociatedCategory { get; set; } // 关联的类别，表示多对一关系
-        public int AssociatedCategoryId { get; set; } // 类别的ID，外键
-        public decimal Price { get; set; } // 价格
+        public int AssociatedCategoryId { get; set; } // 类别的序号(外键)
+        public decimal Price { get; set; } // 商品的价格
     }
 }

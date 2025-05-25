@@ -370,6 +370,7 @@
     <Content Include="Views\Category\CategoryManagement.cshtml" />
     <Content Include="Views\Product\ProductManagement.cshtml" />
     <Content Include="Views\Product\CreateProduct.cshtml" />
+    <Content Include="Views\Product\UpdateProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -404,6 +405,10 @@
     <Content Include="Content\JqueryScriptsSupport\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\E-CommercePlatform.Data\E-CommercePlatform.Data.csproj">
+      <Project>{6D6C3206-73E0-4593-84F6-1FFF8D6B4518}</Project>
+      <Name>E-CommercePlatform.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\E-CommercePlatform.Entities\E-CommercePlatform.Entities.csproj">
       <Project>{fefd49c1-6093-4f53-aa7c-824baae3fe73}</Project>
       <Name>E-CommercePlatform.Entities</Name>

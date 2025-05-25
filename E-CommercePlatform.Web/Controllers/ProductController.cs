@@ -1,11 +1,14 @@
-﻿using E_CommercePlatform.Entities;
+﻿using E_CommercePlatform.Data;
+using E_CommercePlatform.Entities;
 using E_CommercePlatform.Services;
+using E_CommercePlatform.Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace E_CommercePlatform.Web.Controllers
 {
@@ -43,17 +46,24 @@ namespace E_CommercePlatform.Web.Controllers
         [HttpGet]
         public ActionResult CreateProduct()
         {
-            var categories = categoryService.FindAllCategories();
-            return PartialView(categories);
+            var model = new ProductFormAdminViewModel
+            {
+                CategoriesList = categoryService.FindAllCategoriesForAdmin()
+            };
+            return PartialView(model);
         }
         #endregion
 
-        #region 更新视图
+        #region 修改视图
         [HttpGet]
         public ActionResult UpdateProduct(int id)
         {
-            var product = productService.FindProductByIdForAdmin(id);
-            return PartialView(product);
+            var model = new ProductFormAdminViewModel
+            {
+                CategoriesList = categoryService.FindAllCategoriesForAdmin(),
+                Product = productService.FindProductByIdForAdmin(id)
+            };
+            return PartialView(model);
         }
         #endregion
         #endregion
@@ -113,18 +123,11 @@ namespace E_CommercePlatform.Web.Controllers
         #endregion
 
         #region 更新操作
-        //【更新视图操作】通过传入整型 id 参数，更新商品数据。
         [HttpPost]
-        public ActionResult UpdateProduct(Product formData, HttpPostedFileBase ImageUrl)
+        public ActionResult UpdateProduct(ProductFormAdminViewModel formData, HttpPostedFileBase ImageUrl)
         {
             try
             {
-                var oldProduct = productService.FindProductByIdForAdmin(formData.Id); // 先读取原始商品数据
-                if (oldProduct == null)
-                {
-                    return Json(new { success = false, message = "商品不存在！" }); // 返回给前端的数据错误信息
-                }
-
                 // 判断用户是否上传图片，并且图片是否有效(字节数大于0)。
                 if (ImageUrl != null && ImageUrl.ContentLength > 0)
                 {
@@ -141,15 +144,21 @@ namespace E_CommercePlatform.Web.Controllers
                     ImageUrl.SaveAs(serverFilePath);
 
                     // 表单数据中的图片路径 = 数据库的图片路径
-                    formData.ImageUrl = "/Content/Images/Products/" + uniqueFileName;
+                    formData.Product.ImageUrl = "/Content/Images/Products/" + uniqueFileName;
                 }
                 else
                 {
                     // 如果没有上传新图片，则保留原有图片路径
-                    formData.ImageUrl = oldProduct.ImageUrl;
+                    using (var context = new E_CommerceContext())
+                    {
+                        var originImageUrl = context.Products.Find(formData.Product.Id);
+                        if (originImageUrl != null)
+                        {
+                            formData.Product.ImageUrl = originImageUrl.ImageUrl;
+                        }
+                    }
                 }
 
-                // 调用服务层方法，更新商品数据到数据库
                 productService.ModifyProduct(formData);
                 return Json(new
                 {

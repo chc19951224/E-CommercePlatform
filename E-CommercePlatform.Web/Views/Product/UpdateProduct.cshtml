@@ -1,9 +1,9 @@
 ﻿<!-- 数据源 -->
-@model E_CommercePlatform.Shared.CategoryAdminViewModel
+@model E_CommercePlatform.Shared.ProductFormAdminViewModel
 
 <!-- 视图标题和布局 -->
 @{
-    ViewBag.Title = "UpdateCategory";
+    ViewBag.Title = "更 新 商 品";
     Layout = "~/Views/Dashboard/Shared/_DashboardLayout.cshtml";
 }
 
@@ -12,17 +12,33 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title text-center">更 新 类 别</h5>
+                <h5 class="card-title text-center">更 新 商 品</h5>
 
                 <!-- 表单 -->
                 <form id="tableForm" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="Id" value="@Model.Id" />
+                    @Html.HiddenFor(model => model.Product.Id)
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">所属类别</label>
+
+                        <div class="col-sm-10">
+                            <select name="Product.CategoryId" class="form-select">
+                                <option selected>下拉选取类别</option>
+                                @foreach (var item in Model.CategoriesList)
+                                {
+                                    <option value="@item.Id" @(item.Id == Model.Product.CategoryId ? "selected" : "") )>
+                                        @item.Name
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label">名 称</label>
 
                         <div class="col-sm-10">
-                            <input id="nameInput" name="Name" type="text" class="form-control" value="@Model.Name">
+                            <input id="nameInput" name="Product.Name" type="text" class="form-control" value="@Model.Product.Name">
                         </div>
                     </div>
 
@@ -30,7 +46,15 @@
                         <label class="col-sm-2 col-form-label">描 述</label>
 
                         <div class="col-sm-10">
-                            <input id="descriptionInput" name="Description" type="text" class="form-control" value="@Model.Description">
+                            <input id="descriptionInput" name="Product.Description" type="text" class="form-control" value="@Model.Product.Description">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">价 格</label>
+
+                        <div class="col-sm-10">
+                            <input id="priceInput" name="Product.Price" type="text" class="form-control" value="@Model.Product.Price">
                         </div>
                     </div>
 
@@ -40,7 +64,7 @@
                         <div class="col-sm-10">
                             <!-- 预览图片 -->
                             <div class="img-thumbnail picture">
-                                <img id="previewImage" class="picture__img" src="@Model.ImageUrl" />
+                                <img id="previewImage" class="picture__img" src="@Model.Product.ImageUrl" />
                             </div>
 
                             <!-- 自定义上传按钮 -->
@@ -52,11 +76,11 @@
                     </div>
 
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">精 选</label>
+                        <label class="col-sm-2 col-form-label">特 色 商 品</label>
 
                         <div class="col-sm-10">
-                            <input id="featureTrue" name="Feature" type="radio" value="true" @(Model.Feature ? "checked" : "") />属于
-                            <input id="featureFalse" name="Feature" type="radio" value="false" @(!Model.Feature ? "checked" : "") />不属于
+                            <input id="featureTrue" name="Product.Feature" type="radio" value="true" @(Model.Product.Feature ? "checked" : "") />属于
+                            <input id="featureFalse" name="Product.Feature" type="radio" value="false" @(!Model.Product.Feature ? "checked" : "") />不属于
                         </div>
                     </div>
 
@@ -67,7 +91,7 @@
                             </div>
 
                             <div class="col-auto">
-                                @Html.ActionLink("取消", "CategoryManagement", "Category", null, new { @id = "cancelButton", @class = "btn-neutral" })
+                                @Html.ActionLink("取消", "ProductManagement", "Product", null, new { @id = "cancelButton", @class = "btn-neutral" })
                             </div>
                         </div>
                     </div>
@@ -105,7 +129,7 @@
         const formPayload = new FormData(tableForm); // 创建一个新的FormData对象，封装表单数据
 
         // 发送Promise请求到服务器
-        fetch("/Category/UpdateCategory", {
+        fetch("/Product/UpdateProduct", {
             method: "POST", // 请求方法
             body: formPayload, // 请求体
         })
